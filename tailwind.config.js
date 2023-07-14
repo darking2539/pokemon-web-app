@@ -7,10 +7,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        fluid: "repeat(auto-fit, minmax(10rem, 1fr))",
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      colors: {
+        'third': '#F5DB13',
+        'white-gray': "#F2F2F2",
+        'notfound-red': "#D93E30",
+        'red-dex': "#DC0A2D"
       },
     },
   },
