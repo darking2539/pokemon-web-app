@@ -7,7 +7,7 @@ import CloseIcon from '../../assets/closeIcon.svg'
 import PokemonIcon from '../../assets/Logo.svg'
 import Modal from '../Modal'
 
-export default function index() {
+export default function Header() {
 
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
