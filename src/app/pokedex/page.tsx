@@ -4,6 +4,7 @@ import Pokeball from '../../assets/Pokeball.svg'
 import Image from 'next/image'
 import PokemonCard from '../../components/PokemonCard'
 import axios from 'axios'
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 type Props = {}
 
@@ -21,14 +22,15 @@ export default function Pokedex({ }: Props) {
 
     const handleSearchChange = (evt: any) => {
         setSearch(evt.target.value);
+        setLimit(40);
     }
 
     const filterArray = () => {
-        
+
         var pokemonArrayBuffer: any = [];
         var count = 0;
-        pokemon.map((data: any)=> {
-            if (count < limit && (checkSubstring(data.name, search) || data.id == search)) {
+        pokemon.map((data: any) => {
+            if (count < limit && (checkSubstring(data.name, search.toLowerCase()) || data.id == search)) {
                 pokemonArrayBuffer.push(data);
                 count++;
             }
@@ -36,7 +38,10 @@ export default function Pokedex({ }: Props) {
 
         setFilterPokemon(pokemonArrayBuffer);
 
-    
+    }
+
+    const fetchDataMore = () => {
+        setLimit(limit+40);
     }
 
     const FetchData = () => {
@@ -69,7 +74,7 @@ export default function Pokedex({ }: Props) {
 
     useEffect(() => {
         filterArray();
-    }, [pokemon, search])
+    }, [pokemon, search, limit])
 
     return (
         <div className='flex flex-col text-center md:px-[15%] px-[5%] bg-red-dex'>
@@ -89,21 +94,36 @@ export default function Pokedex({ }: Props) {
                 onChange={handleSearchChange} />
 
             <div className='bg-white mt-5 mb-5 rounded-xl drop-shadow-xl'>
-                <div className="grid gap-2 grid-cols-fluid justify-items-center my-5">
-
-                    {filterPokemon.map((data: any, index: number) => {
-
-                        return (<PokemonCard
-                            key={index}
-                            number={data?.id}
-                            name={data?.name}
-                            imgUrl={data?.image} />)
-                    })}
-
-                </div>
 
 
-            </div>
-        </div>
+                <InfiniteScroll
+                    dataLength={filterPokemon.length} //This is important field to render the next data
+                    next={fetchDataMore}
+                    hasMore={true}
+                    loader={<div/>}
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                            <b>Yay! You have seen it all</b>
+                        </p>
+                    }
+                >
+                    <div className="grid gap-2 grid-cols-fluid justify-items-center my-5">
+                        {filterPokemon.map((data: any, index: number) => {
+
+                            return (<PokemonCard
+                                key={index}
+                                number={data?.id}
+                                name={data?.name}
+                                imgUrl={data?.image} />)
+                        })}
+                    </div>
+                </InfiniteScroll>
+
+
+
+
+
+            </div >
+        </div >
     )
 }
