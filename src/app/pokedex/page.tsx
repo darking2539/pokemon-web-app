@@ -5,6 +5,7 @@ import Image from 'next/image'
 import PokemonCard from '../../components/PokemonCard'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import "./pokemon.css"
 
 type Props = {}
 
@@ -41,7 +42,7 @@ export default function Pokedex({ }: Props) {
     }
 
     const fetchDataMore = () => {
-        setLimit(limit+40);
+        setLimit(limit + 40);
     }
 
     const FetchData = () => {
@@ -63,7 +64,7 @@ export default function Pokedex({ }: Props) {
                 pokemonBuffer.push(payload);
             })
             setPokemon(pokemonBuffer);
-            setLoading(false);
+            setTimeout(()=>{setLoading(false)}, 1000);
         })
     }
 
@@ -78,7 +79,6 @@ export default function Pokedex({ }: Props) {
 
     return (
         <div className='flex flex-col text-center md:px-[15%] px-[5%] bg-red-dex min-h-screen'>
-
             <div className='flex flex-row mt-10'>
                 <Image alt='pokeball' src={Pokeball} />
                 <div className='text-3xl font-bold text-white md:text-3xl ml-3'>
@@ -94,13 +94,11 @@ export default function Pokedex({ }: Props) {
                 onChange={handleSearchChange} />
 
             <div className='bg-white mt-5 mb-5 rounded-xl drop-shadow-xl'>
-
-
                 <InfiniteScroll
                     dataLength={filterPokemon.length} //This is important field to render the next data
                     next={fetchDataMore}
                     hasMore={true}
-                    loader={<div/>}
+                    loader={<div />}
                     endMessage={
                         <p style={{ textAlign: 'center' }}>
                             <b>Yay! You have seen it all</b>
@@ -109,7 +107,6 @@ export default function Pokedex({ }: Props) {
                 >
                     <div className="grid gap-2 grid-cols-fluid justify-items-center my-5">
                         {filterPokemon.map((data: any, index: number) => {
-
                             return (<PokemonCard
                                 key={index}
                                 number={data?.id}
@@ -118,12 +115,17 @@ export default function Pokedex({ }: Props) {
                         })}
                     </div>
                 </InfiniteScroll>
-
-
-
-
-
             </div >
+
+            {loading && (
+                <div style={{ top: "0px", left: "0px", position: "fixed", zIndex: 20, backgroundColor: "rgba(0,0,0,0.6)", width: "100%", height: "100%" }}>
+                    <div className='fixed top-[50%] left-[50%] ml-[-58px]'>
+                        <div style={{ border: "8px solid black", borderRadius: "50%" }}>
+                            <div className='pokemon' />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div >
     )
 }
