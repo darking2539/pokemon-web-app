@@ -15,7 +15,7 @@ function checkSubstring(string: string, substring: string) {
 export default function Pokedex({ }: Props) {
 
     const [search, setSearch] = useState("");
-    const [limit, setLimit] = useState(40);
+    const [limit, setLimit] = useState(60);
     const [pokemon, setPokemon] = useState<any>([]);
     const [filterPokemon, setFilterPokemon] = useState<any>([]);
     const [loading, setLoading] = useState(true);
@@ -77,7 +77,7 @@ export default function Pokedex({ }: Props) {
     }, [pokemon, search, limit])
 
     return (
-        <div className='flex flex-col text-center md:px-[15%] px-[5%] bg-red-dex'>
+        <div className='flex flex-col text-center md:px-[15%] px-[5%] bg-red-dex min-h-screen'>
 
             <div className='flex flex-row mt-10'>
                 <Image alt='pokeball' src={Pokeball} />
