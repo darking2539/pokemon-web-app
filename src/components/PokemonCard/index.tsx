@@ -41,7 +41,7 @@ export default function PokemonCard({ number, name, imgUrl, detailUrl }: Props) 
             <div className='p-3'>
                 <div className='flex justify-end text-gray-500'>{`#${addLeadingZeros(number)}`}</div>
                 <div className='flex justify-center'><Image className='' alt='dummy' width={150} height={150} src={imgUrl} /></div>
-                <div className='grid grid-flow-col gap-2 justify-center mt-2'>
+                <div className='grid grid-flow-col gap-1 justify-center mt-2'>
                     {types.map((type: any, index: number) => {
                         return <ChipElement
                             key={index}
