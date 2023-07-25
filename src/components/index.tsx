@@ -1,3 +1,5 @@
 export { default as Header } from "./Header"
 export { default as Modal } from "./Modal"
+export { default as PokedexComponents } from "./PokedexComponents"
 export { default as PokemonCard } from "./PokemonCard"
+export { default as ChipElement } from "./ChipElement"
