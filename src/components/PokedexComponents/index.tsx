@@ -88,7 +88,7 @@ export default function Pokedex({ pokemon }: Props) {
                             </p>
                         }
                     >
-                        <div className="grid gap-2 grid-cols-fluid justify-items-center my-5">
+                        <div className="grid gap-2 grid-cols-fluid justify-items-center my-5 px-4">
                             {filterPokemon.map((data: any, _: number) => {
                                 return (<PokemonCard
                                     key={data?.id}
