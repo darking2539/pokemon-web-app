@@ -9,7 +9,6 @@ import "./pokemon.css"
 
 type Props = {
     pokemon: any[];
-    loading: boolean;
 }
 
 function checkSubstring(string: string, substring: string) {
@@ -54,7 +53,7 @@ export default function Pokedex({ pokemon }: Props) {
     useEffect(() => {
         if (pokemon.length === 0) {
             setLoading(true);
-        }else {
+        } else {
             setLoading(false);
         }
     }, [pokemon])
@@ -75,31 +74,33 @@ export default function Pokedex({ pokemon }: Props) {
                 value-={search}
                 onChange={handleSearchChange} />
 
-            <div className='bg-white mt-5 mb-5 rounded-xl drop-shadow-xl'>
-                <InfiniteScroll
-                    dataLength={filterPokemon.length} //This is important field to render the next data
-                    next={fetchDataMore}
-                    hasMore={true}
-                    loader={<div />}
-                    endMessage={
-                        <p style={{ textAlign: 'center' }}>
-                            <b>Yay! You have seen it all</b>
-                        </p>
-                    }
-                >
-                    <div className="grid gap-2 grid-cols-fluid justify-items-center my-5">
-                        {filterPokemon.map((data: any, _: number) => {
-                            return (<PokemonCard
-                                key={data?.id}
-                                number={data?.id}
-                                name={data?.name}
-                                imgUrl={data?.image}
-                                detailUrl={data?.detailUrl} />)
-                        })}
-                    </div>
-                </InfiniteScroll>
-            </div >
 
+            {filterPokemon.length > 0 && (
+                <div className='bg-white mt-5 mb-5 rounded-xl drop-shadow-xl'>
+                    <InfiniteScroll
+                        dataLength={filterPokemon.length} //This is important field to render the next data
+                        next={fetchDataMore}
+                        hasMore={true}
+                        loader={<div />}
+                        endMessage={
+                            <p style={{ textAlign: 'center' }}>
+                                <b>Yay! You have seen it all</b>
+                            </p>
+                        }
+                    >
+                        <div className="grid gap-2 grid-cols-fluid justify-items-center my-5">
+                            {filterPokemon.map((data: any, _: number) => {
+                                return (<PokemonCard
+                                    key={data?.id}
+                                    number={data?.id}
+                                    name={data?.name}
+                                    imgUrl={data?.image}
+                                    detailUrl={data?.detailUrl} />)
+                            })}
+                        </div>
+                    </InfiniteScroll>
+                </div >
+            )}
             {loading && (
                 <div style={{ top: "0px", left: "0px", position: "fixed", zIndex: 20, backgroundColor: "rgba(0,0,0,0.6)", width: "100%", height: "100%" }}>
                     <div className='fixed top-[50%] left-[50%] ml-[-58px]'>

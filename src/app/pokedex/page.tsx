@@ -4,12 +4,19 @@ import axios from 'axios';
 
 type Props = {}
 
+function delay(timeout: number) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
 export default async function Pokedex({ }: Props) {
 
-    var loading: boolean = true;
+
     var resp = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=1000");
     var pokemonAllData: any[] = [];
-    await resp.data.results.map((result: any) => {
+    
+    resp.data.results.map((result: any) => {
 
         var urlData: string = result.url
         const trimmedString: string = urlData.endsWith("/") ? urlData.slice(0, -1) : urlData;
@@ -24,12 +31,9 @@ export default async function Pokedex({ }: Props) {
         pokemonAllData.push(payload);
     })
 
-    loading = false;
-
     return (
         <>
             <PokedexComponents
-                loading={loading}
                 pokemon={pokemonAllData} />
         </>
     )

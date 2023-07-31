@@ -36,19 +36,21 @@ export default function PokemonCard({ number, name, imgUrl, detailUrl }: Props) 
     }, [detailUrl])
 
     return (
-        <div className='flex flex-col bg-white w-[150px] rounded-lg border-black drop-shadow-xl cursor-pointer'>
-            <div className='absolute bottom-0 bg-gray-100 w-[100%] h-[50%] rounded-lg z-[-1]' />
-            <div className='p-3'>
-                <div className='flex justify-end text-gray-500'>{`#${addLeadingZeros(number)}`}</div>
-                <div className='flex justify-center'><Image className='' alt='dummy' width={150} height={150} src={imgUrl} /></div>
-                <div className='grid grid-flow-col gap-1 justify-center mt-2'>
-                    {types.map((type: any, index: number) => {
-                        return <ChipElement
-                            key={index}
-                            typeName={type} />
-                    })}
+        <div className='relative flex flex-col bg-slate-100 w-[150px] rounded-lg border-black cursor-pointer'>
+            <div className='z-[1]'>
+                <div className='absolute bottom-0 bg-slate-200 w-[100%] h-[50%] rounded-lg z-[-1]' />
+                <div className='p-3'>
+                    <div className='flex justify-end text-gray-500'>{`#${addLeadingZeros(number)}`}</div>
+                    <div className='flex justify-center'><Image className='' alt='dummy' width={150} height={150} src={imgUrl} priority={true} /></div>
+                    <div className='grid grid-flow-col gap-1 justify-center mt-2 scale-75'>
+                        {types.map((type: any, index: number) => {
+                            return <ChipElement
+                                key={index}
+                                typeName={type} />
+                        })}
+                    </div>
+                    <div className='flex justify-center text-lg mt-1'>{firstUpper(name)}</div>
                 </div>
-                <div className='flex justify-center text-lg mt-1'>{firstUpper(name)}</div>
             </div>
         </div>
     )
