@@ -6,6 +6,7 @@ import PokemonCard from '../PokemonCard'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "./pokemon.css"
+import Link from "next/link";
 
 type Props = {
     pokemon: any[];
@@ -90,12 +91,15 @@ export default function Pokedex({ pokemon }: Props) {
                     >
                         <div className="grid gap-2 grid-cols-fluid justify-items-center my-5 px-2">
                             {filterPokemon.map((data: any, _: number) => {
-                                return (<PokemonCard
-                                    key={data?.id}
-                                    number={data?.id}
-                                    name={data?.name}
-                                    imgUrl={data?.image}
-                                    detailUrl={data?.detailUrl} />)
+                                return (
+                                    <Link href={`/detail/${data?.id}`}>
+                                        <PokemonCard
+                                            key={data?.id}
+                                            number={data?.id}
+                                            name={data?.name}
+                                            imgUrl={data?.image}
+                                            detailUrl={data?.detailUrl} />
+                                    </Link>)
                             })}
                         </div>
                     </InfiniteScroll>

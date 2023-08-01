@@ -1,0 +1,20 @@
+export const typeToColor: Record<string, string> = {
+    fire: "#FF9D55",
+    water: "#5090D6",
+    grass: "#63BC5A",
+    electric: "#F4D23C",
+    psychic: "#FA7179",
+    bug: "#91C12F",
+    flying: "#89AAE3",
+    poison: "#B567CE",
+    normal: "#919AA2",
+    fairy: "#EC8FE6",
+    ground: "#D97845",
+    fighting: "#CE416B",
+    rock: "#C5B78C",
+    steel: "#5A8EA2",
+    ice: "#73CEC0",
+    ghost: "#5269AD",
+    dragon: "#0B6DC3",
+    dark: "#5A5465"
+};

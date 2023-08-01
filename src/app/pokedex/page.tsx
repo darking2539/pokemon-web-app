@@ -13,10 +13,10 @@ function delay(timeout: number) {
 export default async function Pokedex({ }: Props) {
 
 
-    var resp = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=1000");
+    var resp = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=2000");
     var pokemonAllData: any[] = [];
     
-    resp.data.results.map((result: any) => {
+    await resp.data.results.map((result: any) => {
 
         var urlData: string = result.url
         const trimmedString: string = urlData.endsWith("/") ? urlData.slice(0, -1) : urlData;
@@ -24,7 +24,7 @@ export default async function Pokedex({ }: Props) {
         var payload: any = {
             id: idNumber,
             name: result.name,
-            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${idNumber}.png`,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idNumber}.png`,
             detailUrl: urlData,
         }
 

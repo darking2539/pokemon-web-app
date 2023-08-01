@@ -3,22 +3,13 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import ChipElement from '../ChipElement';
 import axios from 'axios';
+import { addLeadingZeros, firstUpper } from '@/utils/stringPayload';
 
 type Props = {
     number: string;
     name: string;
     imgUrl: string;
     detailUrl: string;
-}
-
-function addLeadingZeros(number: string) {
-    const desiredLength = 3;
-    const paddedNumber = number.toString().padStart(desiredLength, '0');
-    return paddedNumber;
-}
-
-function firstUpper(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export default function PokemonCard({ number, name, imgUrl, detailUrl }: Props) {
@@ -49,7 +40,7 @@ export default function PokemonCard({ number, name, imgUrl, detailUrl }: Props) 
                                 typeName={type} />
                         })}
                     </div>
-                    <div className='flex justify-center text-lg mt-1'>{firstUpper(name)}</div>
+                    <div className='flex justify-center text-lg mt-1 whitespace-nowrap truncate'>{firstUpper(name)}</div>
                 </div>
             </div>
         </div>
