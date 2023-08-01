@@ -32,7 +32,7 @@ export default async function PokemonDetail({ params }: Props) {
     const height: string = jsonDetail.height;
 
     return (
-        <div className="h-screen" style={{ backgroundColor: colorCode }}>
+        <div key={id} className="h-screen" style={{ backgroundColor: colorCode }}>
             <div className="flex items-center justify-between px-10 pt-10">
                 <div className="flex flex-row">
                     <Link href="/pokedex"><Image alt="backButton" src={BackButton} /></Link>
@@ -68,8 +68,8 @@ export default async function PokemonDetail({ params }: Props) {
                             <div className="text-xs text-gray-500">Height</div>
                         </div>
                         <div className="flex flex-col grow basis-0 justify-end justify-self-end items-center px-3 border-l">
-                            {abilities.map((ability: string) => {
-                                return (<div className="text-sm">{firstUpper(ability)}</div>);
+                            {abilities.map((ability: string, index: number) => {
+                                return (<div key={index} className="text-sm">{firstUpper(ability)}</div>);
                             })}
                             <div className="text-xs text-gray-500 mt-1">Abilities</div>
                         </div>
