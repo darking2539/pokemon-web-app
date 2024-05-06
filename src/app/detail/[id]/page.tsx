@@ -30,9 +30,10 @@ export default async function PokemonDetail({ params }: Props) {
     const colorCode: string = typeToColor[pokemonType];
     const weight: string = jsonDetail.weight;
     const height: string = jsonDetail.height;
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
     return (
-        <div key={id} className="h-screen" style={{ backgroundColor: colorCode }}>
+        <div key={id} className="h-screen overflow-y-hidden" style={{ backgroundColor: colorCode }}>
             <div className="flex items-center justify-between px-10 pt-10">
                 <div className="flex flex-row">
                     <Link href="/pokedex"><Image alt="backButton" src={BackButton} /></Link>
