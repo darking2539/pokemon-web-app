@@ -30,7 +30,6 @@ export default async function PokemonDetail({ params }: Props) {
     const colorCode: string = typeToColor[pokemonType];
     const weight: string = jsonDetail.weight;
     const height: string = jsonDetail.height;
-    window.scrollTo({ top: 0, behavior: 'instant' });
 
     return (
         <div key={id} className="h-screen overflow-y-hidden" style={{ backgroundColor: colorCode }}>
