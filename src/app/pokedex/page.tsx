@@ -12,7 +12,6 @@ function delay(timeout: number) {
 
 export default async function Pokedex({ }: Props) {
 
-
     var resp = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=2000");
     var pokemonAllData: any[] = [];
     

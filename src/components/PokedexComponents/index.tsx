@@ -1,15 +1,22 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import { useScrollPosition, useEffectOnce } from '@/hooks'
 import Pokeball from '../../assets/Pokeball.svg'
 import Image from 'next/image'
 import PokemonCard from '../PokemonCard'
-import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "./pokemon.css"
 import Link from "next/link";
+import { delayTimeout } from '@/utils'
 
 type Props = {
     pokemon: any[];
+}
+
+type stateSave = {
+    position: number;
+    searchKeyword: string;
+    limit: number;
 }
 
 function checkSubstring(string: string, substring: string) {
@@ -18,18 +25,12 @@ function checkSubstring(string: string, substring: string) {
 
 export default function Pokedex({ pokemon }: Props) {
 
+    const position = useScrollPosition();
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [limit, setLimit] = useState(60);
-    const [filterPokemon, setFilterPokemon] = useState<any>([]);
 
-    const handleSearchChange = (evt: any) => {
-        setSearch(evt.target.value);
-        setLimit(40);
-    }
-
-    const filterArray = () => {
-
+    const filterPokemon = useMemo(() => {
         var pokemonArrayBuffer: any = [];
         var count = 0;
         pokemon.map((data: any) => {
@@ -38,26 +39,52 @@ export default function Pokedex({ pokemon }: Props) {
                 count++;
             }
         })
+        return pokemonArrayBuffer;
+    }, [pokemon, limit, search]);
 
-        setFilterPokemon(pokemonArrayBuffer);
+    const handleSearchChange = useCallback((evt: any) => {
+        setSearch(evt.target.value);
+        setLimit(40);
+    }, [search]);
 
-    }
+    const handleItemClick = useCallback((evt: any) => {
+        setLoading(true);
+        const stateSave: stateSave = {
+            position: position,
+            searchKeyword: search,
+            limit: limit,
+        }
+        localStorage.setItem("stateSave", JSON.stringify(stateSave));
+    }, [position, search, limit]);
 
     const fetchDataMore = () => {
         setLimit(limit + 40);
     }
 
-    useEffect(() => {
-        filterArray();
-    }, [pokemon, search, limit])
-
-    useEffect(() => {
+    useEffectOnce(() => {
         if (pokemon.length === 0) {
             setLoading(true);
         } else {
             setLoading(false);
         }
-    }, [pokemon])
+    });
+
+    useEffectOnce(() => {
+        const stateSave = localStorage.getItem("stateSave");
+        if (stateSave) {
+            setLoading(true);
+            const state: stateSave = JSON.parse(stateSave) as stateSave;
+            setSearch(state.searchKeyword);
+            setLimit(state.limit);
+            delayTimeout(200).then(()=> {
+                window.scrollTo({
+                    top: state.position,
+                    behavior: "smooth",
+                });
+                setLoading(false);
+            })
+        }
+    });
 
     return (
         <div className='flex flex-col text-center md:px-[15%] px-[5%] bg-red-dex min-h-screen'>
@@ -72,9 +99,8 @@ export default function Pokedex({ pokemon }: Props) {
                 type="text"
                 className='mt-5 border-2 rounded-3xl py-2 px-4 text-sm w-full bg-white-gray'
                 placeholder='Find your pokemon...'
-                value-={search}
+                value={search}
                 onChange={handleSearchChange} />
-
 
             {filterPokemon.length > 0 && (
                 <div className='bg-white mt-5 mb-5 rounded-xl drop-shadow-xl'>
@@ -92,13 +118,16 @@ export default function Pokedex({ pokemon }: Props) {
                         <div className="grid gap-2 grid-cols-fluid justify-items-center my-5 px-2">
                             {filterPokemon.map((data: any, _: number) => {
                                 return (
-                                    <Link key={data?.id} href={`/detail/${data?.id}`}>
-                                        <PokemonCard
-                                            number={data?.id}
-                                            name={data?.name}
-                                            imgUrl={data?.image}
-                                            detailUrl={data?.detailUrl} />
-                                    </Link>)
+                                    <div key={data?.id} onClick={handleItemClick}>
+                                        <Link href={`/detail/${data?.id}`}>
+                                            <PokemonCard
+                                                number={data?.id}
+                                                name={data?.name}
+                                                imgUrl={data?.image}
+                                                detailUrl={data?.detailUrl} />
+                                        </Link>
+                                    </div>
+                                )
                             })}
                         </div>
                     </InfiniteScroll>
